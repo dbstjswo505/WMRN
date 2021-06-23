@@ -1,1 +1,1 @@
-# Weakly-Supervised Video Moment Retrieval for Video Corpus Moment Retrieval
+# Weakly-Supervised Moment Retrieval Network for Video Corpus Moment Retrieval

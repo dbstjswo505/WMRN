@@ -85,47 +85,6 @@ class HeroForPretraining(HeroModel):
                     modularized_query, frame_embeddings,
                     batch['c_attn_masks'],out_full=True)
 
-
-            #B1,L,B2 = q2v_score_all.shape
-
-            #score_all = torch.clamp(q2v_score_all,min=0,max=1000)
-            #dv = score_all.device
-            #p_score = torch.zeros(B1,L,device=dv)
-            #integ_m = torch.zeros(B1,L,L,B2,device=dv)
-            #for i in range(L):
-            #    integ_m[:,i,:i+1,:] = 1
-
-            #origin_score = torch.zeros(B1,L)
-            #origin_score_ = score_all    
-            #score_all = score_all.view(B1,1,L,B2)
-            #score_all = score_all.repeat(1,L,1,1)
-            #
-            #integ = torch.sum(integ_m*score_all,dim=2)
-            #
-            #for j in range(B1):
-            #    p_score[j,:] = integ[j,:,j]
-            #    origin_score[j,:]= origin_score_[j,:,j]
-
-
-
-            #E,_ = torch.max(p_score,dim=1)
-            #S,_ = torch.min(p_score,dim=1)
-            #n = 10
-            #W = (E - S)/n
-            #W = W.view(B1,1).repeat(1,n)
-            #g = torch.arange(n,device=dv).view(1,n).repeat(B1,1)
-            #Wg = W*g
-            #Wg = Wg.view(B1,1,n).repeat(1,L,1)
-            #p_score_ = p_score.view(B1,L,1).repeat(1,1,n)
-            #ck = p_score_ - Wg
-            #ck_ = abs(-1/ck)
-            #_,idx = torch.max(ck_,dim=1)
-            #
-            #_,s_score_idx = torch.sort(-origin_score,dim=1)
-            
-
-            #proposal_embeddings = frame_embeddings[:,idx
-
             if compute_loss:
                 dtype = frame_embeddings.dtype
                 device = frame_embeddings.device
@@ -133,7 +92,6 @@ class HeroForPretraining(HeroModel):
                 loss_neg_ctx = torch.zeros(1, dtype=dtype, device=device)
                 loss_neg_q = torch.zeros(1, dtype=dtype, device=device)
                 reduction = 'mean' if self.training else 'sum'
-                #tsp_n = torch.zeros(100)
                 if st_prob is not None:
                     if len(st_prob.size()) == 3:
                         row_indices = torch.arange(
@@ -150,12 +108,6 @@ class HeroForPretraining(HeroModel):
                         ed_prob, targets[:, 1].long(), reduction=reduction,
                         ignore_index=-1)
                     loss_st_ed = loss_st + loss_ed
-                    
-                    #tsp = targets[:,1] - targets[:,0]
-                    #for i in range(100):
-                    #    tmp = tsp == i
-                    #    tsp_n[i] = torch.sum(tmp)
-                    #loss_st_ed = -loss_mine
 
                 if q2video_scores is not None:
                     loss_neg_ctx, loss_neg_q = self.get_video_level_loss(
@@ -300,15 +252,9 @@ class HeroForPretraining(HeroModel):
         # (Nq,10)
         samples = 5
         negative_sample_scores = self.get_hard_neg_scores(q2vp,sample_idx=samples)
-
-        #DH###############################################################################
-
         positive_sample_scores = self.get_hard_pos_scores(q2vp, sample_idx = samples)
         positive_sample_scores = positive_sample_scores.mean(dim=1).view(bsz_q, 1)
-
         loss_hard_neg = self.get_ranking_loss(positive_sample_scores, negative_sample_scores)
-
-        ##################################################################################
 
 
         #loss_hard_neg = self.get_ranking_loss(pos_query_video_scores,negative_sample_scores)

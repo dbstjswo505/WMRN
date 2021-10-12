@@ -194,14 +194,6 @@ def main(opts):
                 f'{opts.task}_neg_q', f'{opts.task}_neg_hard'):
         task2loss[obj] = RunningMeter(f'loss/{obj}')
     
-    #for obj in (f'{opts.task}_st_ed', f'{opts.task}_neg_ctx',
-    #            f'{opts.task}_neg_q'):
-    #    task2loss[obj] = RunningMeter(f'loss/{obj}')
-    
-    #for obj in (f'{opts.task}_neg_ctx',
-    #            f'{opts.task}_neg_q', f'{opts.task}_neg_hard'):
-    #    task2loss[obj] = RunningMeter(f'loss/{obj}')
-    
     model.train()
     n_examples = defaultdict(int)
     start = time()
@@ -224,28 +216,16 @@ def main(opts):
 
         loss = model(batch, task=task, compute_loss=True)
 
-        
-        #loss_st_ed, loss_neg_ctx, loss_neg_q = loss
-        #tsp_N = tsp_N + tsp_n
-        #if step == 3400:
-        #    pdb.set_trace()
-        #    tsp_N = tsp_N.numpy()
-        #    np.save('./save.npy',tsp_N)
-
         loss_st_ed, loss_neg_ctx, loss_neg_q, loss_neg_hard = loss
+        
+        # Weakly supervised setting for VCMR
         loss_st_ed = torch.zeros(1).cuda()
-        #loss = loss_st_ed + loss_neg_ctx + loss_neg_q
-        #pdb.set_trace()
-
+        
+        # Hard negative sample loss
         if step<1000:
             loss_neg_hard = torch.zeros(1).cuda()
 
         loss = loss_st_ed + loss_neg_ctx + loss_neg_q + loss_neg_hard
-        #for n, ls, w in (('st_ed', loss_st_ed, opts.lw_st_ed),
-        #                ('neg_ctx', loss_neg_ctx, opts.lw_neg_ctx),
-        #                 ('neg_q', loss_neg_q, opts.lw_neg_q)):
-        #for n, ls, w in (('neg_ctx', loss_neg_ctx, opts.lw_neg_ctx),
-        #                 ('neg_q', loss_neg_q, opts.lw_neg_q)):
         for n, ls, w in (('st_ed', loss_st_ed, opts.lw_st_ed),
                          ('neg_hard', loss_neg_hard, opts.lw_neg_ctx),
                          ('neg_ctx', loss_neg_ctx, opts.lw_neg_ctx),

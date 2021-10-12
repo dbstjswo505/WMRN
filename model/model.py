@@ -232,11 +232,6 @@ class HierarchicalVlModel(VideoPreTrainedModel):
             tranformed_c_v_feats = torch.flip(transformed_c_v_feats,[1])
             c_attn_masks = torch.flip(c_attn_masks,[1])
             is_flip = True
- 
-        #####
-
-
-
 
         if encode_clip:
             # reordered_feats = self.reorder_frame(

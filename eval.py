@@ -149,9 +149,6 @@ def validate_full_vcmr(model, val_loader, split, opts, model_opts):
     nof2 = 11 # second layer proposal
     nof3 = 9
     nof4 = 7
-    #nof4 = 7
-    #nof4_ = 6
-    #nof5 = 5
     LOGGER.info("start running  full VCMR evaluation"
                 f"on {opts.task} {split} split...")
     model.eval()
@@ -440,31 +437,6 @@ def validate_full_vcmr(model, val_loader, split, opts, model_opts):
         #proposal_score = torch.zeros(B1,100,n_total)
         # Multi scale Proposal Generation
 
-
-        # Golden Skill
-        #proposal_st = torch.zeros((B1,100,n_total))
-        #proposal_ed = torch.zeros((B1,100,n_total))
-        #for b in range(B1):
-        #    for i in range(100):
-        #        # layer 1
-        #        for j in range(n-1):
-        #            _,pi = torch.max(origin_score[b,i,idx[b,i,j]:idx[b,i,j+1]+1],dim=0)
-        #            offset = idx[b,i,j]
-        #            proposal_score[b,i,j] = origin_score[b,i,offset+pi]
-        #            proposal_st[b,i,j] = idx[b,i,j].item()
-        #            proposal_ed[b,i,j] = idx[b,i,j+1].item()
-        #        # layer 2
-        #        for j in range(int((n-1)/2)):
-        #            _,pi = torch.max(origin_score[b,i,idx[b,i,j*2]:idx[b,i,j*2+2]+1],dim=0)
-        #            offset = idx[b,i,j*2]
-        #            proposal_score[b,i,j+n-1] = origin_score[b,i,offset+pi]
-        #            proposal_st[b,i,j+n-1] = idx[b,i,j*2].item()
-        #            proposal_ed[b,i,j+n-1] = idx[b,i,j*2+2].item()
-
-        #proposal_score = proposal_score.view(B1,100*n_total)
-        #_,p_idx = torch.sort(-proposal_score,dim=1)
-        #proposal_idx = p_idx[:,:100]
-
         # Speed version
         # Double layer
         proposal_score = torch.zeros(B1,100,(n))
@@ -477,110 +449,23 @@ def validate_full_vcmr(model, val_loader, split, opts, model_opts):
 
         l3s = torch.arange(nof3)
         l3e = l3s + 4
-
-        #l3s_ = torch.arange(nof3_)
-        #l3e_ = l3s_ + 5
         
         l4s = torch.arange(nof4)
         l4e = l4s + 6
 
-        #l4s_ = torch.arange(nof4_)
-        #l4e_ = l4s_ + 6
-        
-        #l5s = torch.arange(nof5)
-        #l5e = l5s + 8
-
         proposal_st = torch.cat((idx[:,:,l2s],idx[:,:,l3s],idx[:,:,l4s]),dim=2)
         proposal_ed = torch.cat((idx[:,:,l2e],idx[:,:,l3e],idx[:,:,l4e]),dim=2)
-
-
-        #proposal_st = idx[:,:,l2s]
-        #proposal_ed = idx[:,:,l2e]
-
-
-
-        # DH : how to change proposal score
-
-        ############################################################
-
-
-
-        #proposal_length = proposal_ed - proposal_st + 1
-
-        #st_score = torch.clamp(torch.gather(origin_score,2,proposal_st), min=0, max=1)
-        #ed_score = torch.clamp(torch.gather(origin_score,2,proposal_ed), min=0, max=1)
 
         st_score = torch.gather(origin_score,2,proposal_st)
         ed_score = torch.gather(origin_score,2,proposal_ed)
 
-        #count_score = abs(st_score-ed_score)/proposal_length
-
-        #tmp_st = st_score>=ed_score
-        #tmp_ed = ed_score>st_score
-
         out_score = (st_score+ed_score)/2
-        #out_score = (tmp_st*st_score)+(tmp_ed*ed_score)-count_score
 
         proposal_score = out_score
 
-
-
-        #score_max = origin_score.max()
-        #score_min = abs(origin_score).min()
-        #max_length = proposal_length.max()
-
-        #tmp_score = torch.ones(proposal_length.shape[0], proposal_length.shape[1], max_length)
-        #tmp_max_box = score_max * tmp_score
-        #tmp_min_box = score_min * tmp_score
-
-
-
-
-        ############################################################
-
-        #proposal_score = torch.gather(origin_score,2,proposal_st)
         proposal_score = proposal_score.view(B1,100*(n))
         _,p_idx = torch.sort(proposal_score,descending=True,dim=1)
         proposal_idx = p_idx[:,:100]
-
-        # Single layer
-        #idx_ = idx[:,:,:-1]
-        #proposal_score = torch.gather(origin_score,2,idx_)
-        #proposal_st = idx[:,:,:-1]
-        #proposal_ed = idx[:,:,1:]
-        #proposal_score = proposal_score.view(B1,100*(n-1))
-        #_,p_idx = torch.sort(-proposal_score,dim=1)
-        #proposal_idx = p_idx[:,:100]
-
-        # Not use bellow!
-        ###s_score,s_score_idx = torch.sort(-origin_score,dim=2)
-        ###s_score = -s_score
-        ###pdb.set_trace()
-        ###TOP = 5
-        ###for top_n in range(TOP):
-        ###    top1_score = s_score[:,:,top_n]
-        ###    top1_score_idx = s_score_idx[:,:,top_n]
-        ###    top1_score_idx = top1_score_idx.view(B1,T,1).repeat(1,1,n)
-
-        ###    sub = idx - top1_score_idx + 0.01
-        ###    sub = abs(-1/sub)
-
-        ###
-        ###    _,top1_prop_idx = torch.max(sub,dim=2)
-        ###
-        ###    tmp = top1_prop_idx-(n-2)
-        ###
-        ###    tmp = torch.clamp(tmp,min=0,max=1)
-        ###    top1_prop_idx = top1_prop_idx - tmp
-        ###    top1_prop_idx = top1_prop_idx.view(B1,T,1).repeat(1,1,n)
-        ###    st_proposal_ = torch.gather(idx,2,top1_prop_idx)
-        ###    ed_proposal_ = torch.gather(idx,2,top1_prop_idx+1)
-        ###    st_proposal = st_proposal_[:,:,0]
-        ###    ed_proposal = ed_proposal_[:,:,0]
-        ###
-        ###    offset = st_proposal == ed_proposal
-        ###    offset2 = offset*2
-        ###    ed_proposal = ed_proposal + offset2
 
 
         if vcmr_top_idx_total is None:

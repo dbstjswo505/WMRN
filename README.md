@@ -23,26 +23,6 @@ checkpoints. We use the HowTo100M pre-tasks pretrained model in HERO.
     ```bash
     bash scripts/download_tvr.sh $PATH_TO_STORAGE
     ```
-    The following folder structure is given after downloading:
-    ```
-    ├── finetune
-    │   ├── tvr_default
-    │   └── tvr_default.tar
-    ├── video_db
-    │   ├── tv
-    │   └── tv.tar
-    ├── pretrained
-    │   └── hero-tv-ht100.pt
-    └── txt_db
-        ├── tv_subtitles.db
-        ├── tv_subtitles.tar
-        ├── tvr_train.db
-        ├── tvr_train.tar
-        ├── tvr_val.db
-        └── tvr_val.tar
-        ├── tvr_test_public.db
-        └── tvr_test_public.tar
-    ```
 
 3. We utilize the Docker from HERO, which gives command for pooling docker image below.
     ```bash

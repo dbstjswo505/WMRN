@@ -73,8 +73,6 @@ checkpoints. We use the HowTo100M pre-tasks pretrained model in HERO.
 
 ## Citation
 
-## Citation
-
 If you find this code useful for your research, please consider citing:
 ```
 @inproceedings{yoon2021weakly,

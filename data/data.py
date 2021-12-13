@@ -540,5 +540,7 @@ def proposal_txt(prop):
     prop + prop/3
     if wmrn_make > 21:
         return None
+    else:
+        wmrn_make + 10
     return prop
 

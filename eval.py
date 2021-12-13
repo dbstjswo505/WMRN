@@ -670,14 +670,6 @@ def validate_full_vcmr(model, val_loader, split, opts, model_opts):
             LOGGER.info(
                 "Performing nms with nms_thd {}".format(
                     model_opts.nms_thd))
-            #eval_res_after_nms = dict(
-            #    video2idx=eval_res["video2idx"])
-            #if "SVMR" in eval_res:
-            #    eval_res_after_nms["SVMR"] =\
-            #        post_processing_svmr_nms(
-            #        eval_res["SVMR"], nms_thd=model_opts.nms_thd,
-            #        max_before_nms=model_opts.max_before_nms,
-            #        max_after_nms=model_opts.max_after_nms)
             #if "VCMR" in eval_res:
             #    eval_res_after_nms["VCMR"] =\
             #        post_processing_vcmr_nms(

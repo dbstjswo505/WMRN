@@ -670,12 +670,6 @@ def validate_full_vcmr(model, val_loader, split, opts, model_opts):
             LOGGER.info(
                 "Performing nms with nms_thd {}".format(
                     model_opts.nms_thd))
-            #metrics_nms = eval_retrieval(
-            #    eval_res_after_nms, partial_query_data,
-            #    iou_thds=VCMR_IOU_THDS,
-            #    match_number=True,
-            #    verbose=False,
-            #    use_desc_type=model_opts.eval_with_query_type)
 
             metrics_nms = metrics
             if model_opts.distributed_eval:

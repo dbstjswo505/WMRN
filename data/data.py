@@ -548,5 +548,7 @@ def proposal_vid(prop):
     prop + prop/3
     if wmrn_make > 21:
         return None
+    else:
+        wmrn_make + 10
     return wmrn_make
 

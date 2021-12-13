@@ -548,8 +548,6 @@ class HeroForPretraining(HeroModel):
             query_context_scores,
             dim=1)  # (N, N) diagonal positions are positive pairs.
 
-        #DH Change query_context_scores -> sorted_query_context_scores##########
-
         nosm = 6
 
         tmp_query_context_scores_all = query_context_scores_all

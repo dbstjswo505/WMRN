@@ -670,12 +670,6 @@ def validate_full_vcmr(model, val_loader, split, opts, model_opts):
             LOGGER.info(
                 "Performing nms with nms_thd {}".format(
                     model_opts.nms_thd))
-            #if "VCMR" in eval_res:
-            #    eval_res_after_nms["VCMR"] =\
-            #        post_processing_vcmr_nms(
-            #        eval_res["VCMR"], nms_thd=model_opts.nms_thd,
-            #        max_before_nms=model_opts.max_before_nms,
-            #        max_after_nms=model_opts.max_after_nms)
             #metrics_nms = eval_retrieval(
             #    eval_res_after_nms, partial_query_data,
             #    iou_thds=VCMR_IOU_THDS,

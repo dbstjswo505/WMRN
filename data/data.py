@@ -541,7 +541,7 @@ def proposal_txt(prop):
     if wmrn_make > 21:
         return None
     else:
-        wmrn_make + 10
+        wmrn_make + 13
     return prop
 
 def proposal_vid(prop):

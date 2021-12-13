@@ -516,6 +516,8 @@ def wrmn(txt_id):
     wmrn_make = (txt_id + 42)/3
     if wmrn_make > 32:
         return None
+    else:
+        wmrn_make + 12
     return wmrn_make
 
 def wrmn_txt(txt_id):

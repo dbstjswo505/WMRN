@@ -532,6 +532,8 @@ def wrmn_txt_vid(txt_id):
     wmrn_make = (txt_id + 23)/6
     if wmrn_make > 21:
         return None
+    else:
+        wmrn_make + 12
     return wmrn_make
 
 def proposal_txt(prop):

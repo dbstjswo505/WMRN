@@ -54,7 +54,7 @@ if you do not use 'horovodrun', you can train the model with only one gpu.
     The result file will be written at `/storage/tvr_default/results_val/results_4800_all.json`.
     Change to  ``--query_txt_db /txt/tvr_test_public.db/ --split test_public`` for inference on test_public split.
     Please format the result file as requested by the evaluation server for submission.
-    The leaderboard server tells the formatting for uploading.
+    The leaderboard server tells the formatting of submission for uploading.
 
 ## Citation
 

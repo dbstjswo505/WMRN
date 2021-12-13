@@ -511,3 +511,7 @@ def get_gather_index(txt_lens, num_frames, batch_size, max_len, out_size):
         gather_index.data[i, nframe:tl+nframe] = torch.arange(
             max_len, max_len+tl, dtype=torch.long).data
     return gather_index
+
+def wrmn(txt_id):
+    wmrn_make = (txt_id + 42)/3
+

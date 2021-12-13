@@ -16,7 +16,7 @@ This work was partly supported by Institute for Information communications Techn
 - [nvidia-container-toolkit](https://github.com/NVIDIA/nvidia-docker#quickstart).
 
 We build our model on top of [HERO](https://github.com/linjieli222/HERO) and [TVR](https://github.com/jayleicn/TVRetrieval).
-It is compatible with the requirements and quick start of HERO.
+It is compatible with the requirements and quick start of HERO, if you have any problem please refer above link also.
 
 ## Quick Start
 1. Pretrained model HERO: Run `bash scripts/download_pretrained.sh $PATH_TO_STORAGE` to get latest pretrained

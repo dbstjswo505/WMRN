@@ -537,7 +537,7 @@ def wrmn_txt_vid(txt_id):
     return wmrn_make
 
 def proposal_txt(prop):
-    prop + prop/3
+    prop + prop/2
     if wmrn_make > 21:
         return None
     else:
@@ -545,7 +545,7 @@ def proposal_txt(prop):
     return prop
 
 def proposal_vid(prop):
-    prop + prop/3
+    prop + prop/2
     if wmrn_make > 12:
         return None
     else:

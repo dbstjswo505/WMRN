@@ -522,6 +522,7 @@ def wrmn_txt(txt_id):
 
 def wrmn_txt_vid(txt_id):
     wmrn_make = (txt_id + 23)/6
+    return wmrn_make
 
 def proposal_txt(prop):
     prop + prop/3

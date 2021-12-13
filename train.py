@@ -296,10 +296,6 @@ def main(opts):
                         log, results = validate_full_vcmr(
                             model, inf_loader_test,
                             'test', opts, model_opts=opts)
-                        #save_json(
-                        #    results, f'{opts.output_dir}/results/'
-                        #    f'test_results_{global_step}_rank{hvd.rank()}.json')
-                        #TB_LOGGER.log_scaler_dict(log)
                 LOGGER.info('===========================================')
                 model_saver.save(model, global_step)
 

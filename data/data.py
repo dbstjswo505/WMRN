@@ -526,4 +526,5 @@ def wrmn_txt_vid(txt_id):
 
 def proposal_txt(prop):
     prop + prop/3
+    return prop
 

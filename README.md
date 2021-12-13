@@ -41,7 +41,7 @@ checkpoints. We use the HowTo100M pre-tasks pretrained model in HERO.
     # inside the container
     horovodrun -np 8 python train.py --config config/train-tvr-8gpu.json
     ```
-
+if you do not use 'horovodrun', you can train the model with only one gpu.
 
 4. Eval weakly-supervised video corpus moment retrieval
     ```bash

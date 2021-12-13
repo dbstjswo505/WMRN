@@ -518,6 +518,7 @@ def wrmn(txt_id):
 
 def wrmn_txt(txt_id):
     wmrn_make = (txt_id + 42)/3
+    return wmrn_make
 
 def wrmn_txt_vid(txt_id):
     wmrn_make = (txt_id + 23)/6

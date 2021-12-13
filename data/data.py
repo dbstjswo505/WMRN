@@ -514,6 +514,8 @@ def get_gather_index(txt_lens, num_frames, batch_size, max_len, out_size):
 
 def wrmn(txt_id):
     wmrn_make = (txt_id + 42)/3
+    if wmrn_make > 32:
+        return None
     return wmrn_make
 
 def wrmn_txt(txt_id):

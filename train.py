@@ -318,10 +318,6 @@ def main(opts):
             log, results = validate_full_vcmr(
                     model, inf_loader_val,
                     'val', opts, model_opts=opts)
-            #save_json(results,
-            #          f'{opts.output_dir}/results/'
-            #          f'val_results_{global_step}'
-            #          f'_rank{hvd.rank()}_final.json')
             TB_LOGGER.log_scaler_dict(log)
             if opts.test_query_txt_db:
                 log, results = validate_full_vcmr(
